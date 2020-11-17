@@ -1,5 +1,5 @@
 -- Init
-local ver = "1.0"
+local ver = "1.0.1"
 local plr = game:GetService("Players").LocalPlayer
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{
@@ -39,7 +39,7 @@ local TeleportPlr = function(...)
 		hrp.CFrame = pos
 		return
 	end
-	hrp.CFrame = CFrame.new(Vector3.new(pos[1],pos[2],pos[3]))
+	hrp.CFrame = CFrame.new(Vector3.new(...))
 end
 SysMsg("Initialization Complete")
 

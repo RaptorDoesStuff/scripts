@@ -1,7 +1,7 @@
 -- Init
-local ver = "1.1"
+local ver = "1.2"
 local plr = game:GetService("Players").LocalPlayer
-local Changelog = {"+ Added changelog","- Removed TP Guns To You","* Improved Super Punch"}
+local Changelog = {"+ Added Arrest Criminals","+ Added Anti Death"}
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{
         Title = "PrisonHaxx v" .. ver,
@@ -23,6 +23,12 @@ local Remotes = {
 	end,
 	MeleeEvent = function(instance)
 		game:GetService("ReplicatedStorage").meleeEvent:FireServer(instance)
+	end,
+	LoadChar = function(char)
+		game:GetService("Workspace").Remote.loadchar:InvokeServer(char)
+	end,
+	TeamEvent = function(team)
+		game:GetService("Workspace").Remote.TeamEvent:FireServer(team)
 	end
 }
 local ModGun = function(gun,tab)
@@ -37,6 +43,7 @@ local TeleportPlr = function(...)
 	local pos = {...}
 	local hrp = plr.Character.HumanoidRootPart
 	if pos[2] == nil then
+		pos = ...
 		hrp.CFrame = pos
 		return
 	end
@@ -139,6 +146,18 @@ local SuperPunch = PlrWin:Button("Super Punch",function()
 		end
 	end)
 end)
+local AntiDeath = PlrWin:Button("Anti Death",function()
+	local ConnectHum
+	ConnectHum = function()
+		return plr.Character.Humanoid.Died:Connect(function()
+			local pos = plr.Character.HumanoidRootPart.CFrame
+			Remotes.LoadChar(plr.Name)
+			TeleportPlr(pos)
+			ConnectHum()
+		end)
+	end
+	ConnectHum()
+end)
 
 -- Movement Window
 local MovWin = lib:CreateWindow("Movement")
@@ -166,6 +185,24 @@ local PrisonTp = TpWin:Button("TP Into Prison",function()
 end)
 local GuardRoomTp = TpWin:Button("TP Into Guard Room",function()
 	TeleportPlr(829.638184, 99.9900055, 2301.35254)
+end)
+
+-- Others Window
+local OthWin = lib:CreateWindow("Others")
+local ArrestCrims = OthWin:Button("Arrest Criminals",function()
+	local Crims = {}
+	for i, v in pairs(game:GetService("Players"):GetPlayers()) do
+		if v ~= plr and v.Team == game:GetService("Teams").Criminals then
+			Crims[#Crims + 1] = v
+		end
+	end
+	for i, v in pairs(Crims) do
+		TeleportPlr(v.Character.HumanoidRootPart.CFrame)
+		for i = 1, 5 do
+			Remotes.Arrest(v.Character.HumanoidRootPart)
+		end
+		plr.Character.Humanoid.Jump = true
+	end
 end)
 
 -- Changelog Window

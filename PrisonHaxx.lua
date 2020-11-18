@@ -1,6 +1,7 @@
 -- Init
-local ver = "1.0.1"
+local ver = "1.1"
 local plr = game:GetService("Players").LocalPlayer
+local Changelog = {"+ Added changelog","- Removed TP Guns To You","* Improved Super Punch"}
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{
         Title = "PrisonHaxx v" .. ver,
@@ -99,7 +100,7 @@ local ClickArrest = PlrWin:Button("Click Arrest",function()
     end)
 end)
 local SuperPunch = PlrWin:Button("Super Punch",function() 
-	-- Script isn't mine originally, I modified it for readability, original here https://v3rmillion.net/showthread.php?tid=558620
+	-- Script isn't mine originally, I modified it, original here https://v3rmillion.net/showthread.php?tid=558620
 	local mainRemotes = game.ReplicatedStorage
 	local meleeRemote = mainRemotes['meleeEvent']
 	local mouse = game.Players.LocalPlayer:GetMouse()
@@ -120,7 +121,7 @@ local SuperPunch = PlrWin:Button("Super Punch",function()
 			local plr = game.Players:FindFirstChild(hit.Parent.Name)
 				if plr.Name ~= game.Players.LocalPlayer.Name then
 					part:Destroy()
-					for i = 1,100 do
+					for i = 1,10 do
 						meleeRemote:FireServer(plr)
 					end
 				end
@@ -138,12 +139,15 @@ local SuperPunch = PlrWin:Button("Super Punch",function()
 		end
 	end)
 end)
-local WsBox = PlrWin:Box("WalkSpeed",{
+
+-- Movement Window
+local MovWin = lib:CreateWindow("Movement")
+local WsBox = MovWin:Box("WalkSpeed",{
     flag = "WS"
 },function(new,old,enter)
     plr.Character.Humanoid.WalkSpeed = new
 end)
-local JpBox = PlrWin:Box("JumpPower",{
+local JpBox = MovWin:Box("JumpPower",{
     flag = "JP"
 },function(new,old,enter)
     plr.Character.Humanoid.JumpPower = new
@@ -163,15 +167,12 @@ end)
 local GuardRoomTp = TpWin:Button("TP Into Guard Room",function()
 	TeleportPlr(829.638184, 99.9900055, 2301.35254)
 end)
-local TpGuns = TpWin:Button("TP Guns To You",function()
-	SysMsg("Button not currently functioning")
-	--[[ code broken
-    local hrpCFrame = plr.Character.HumanoidRootPart.CFrame
-    local Items = game:GetService("Workspace").Prison_ITEMS.giver
-    Items["Remington 870"].ITEMPICKUP.CFrame = hrpCFrame
-    Items.M9.ITEMPICKUP.CFrame = hrpCFrame
-    Items["AK-47"].ITEMPICKUP.CFrame = hrpCFrame]]
-end)
+
+-- Changelog Window
+local ChangeWin = lib:CreateWindow("Changelog")
+for i, v in pairs(Changelog) do
+	ChangeWin:Section(v)
+end
 
 -- Complete MSG
 SysMsg("Loading Complete")

@@ -6,7 +6,7 @@ if _G.ArtifactFinder then
 end
 _G.ArtifactFinder = true
 rconsoleclear()
-local ESP_UPDATE_TICK = ({...}) or 0.1
+local ESP_UPDATE_TICK = ({...})[1] or 0.1
 local LocalPlayer = game:GetService("Players").LocalPlayer
 local BillboardGui_TEMPLATE = Instance.new("BillboardGui")
 local TextLabel_TEMPLATE = Instance.new("TextLabel")

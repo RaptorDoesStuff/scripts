@@ -6,25 +6,29 @@ if _G.ArtifactFinder then
 end
 _G.ArtifactFinder = true
 rconsoleclear()
+local ESP_UPDATE_TICK = ({...}) or 0.1
 local LocalPlayer = game:GetService("Players").LocalPlayer
+local BillboardGui_TEMPLATE = Instance.new("BillboardGui")
+local TextLabel_TEMPLATE = Instance.new("TextLabel")
+BillboardGui_TEMPLATE.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+BillboardGui_TEMPLATE.Active = true
+BillboardGui_TEMPLATE.AlwaysOnTop = true
+BillboardGui_TEMPLATE.LightInfluence = 1.000
+BillboardGui_TEMPLATE.Size = UDim2.new(0, 50, 0, 50)
+TextLabel_TEMPLATE.Parent = BillboardGui_TEMPLATE
+TextLabel_TEMPLATE.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+TextLabel_TEMPLATE.Size = UDim2.new(0, 50, 0, 50)
+TextLabel_TEMPLATE.Font = Enum.Font.Nunito
+TextLabel_TEMPLATE.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel_TEMPLATE.TextSize = 14.000
+TextLabel_TEMPLATE.Text = string.lower(string.sub("AJdSSUsgAjsV",5,7)) -- amogus
 local CreateGui = function(shard)
-    local BillboardGui = Instance.new("BillboardGui")
-    local TextLabel = Instance.new("TextLabel")
-    BillboardGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    BillboardGui.Active = true
-    BillboardGui.AlwaysOnTop = true
-    BillboardGui.LightInfluence = 1.000
-    BillboardGui.Size = UDim2.new(0, 50, 0, 50)
-    TextLabel.Parent = BillboardGui
-    TextLabel.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    TextLabel.Size = UDim2.new(0, 50, 0, 50)
-    TextLabel.Font = Enum.Font.Nunito
-    TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    TextLabel.TextSize = 14.000
-    BillboardGui.Parent = shard.CenterPoint
+    local Gui = BillboardGui_TEMPLATE:Clone()
+    Gui.Parent = shard.CenterPoint
     coroutine.wrap(function()
-        while wait(0.1) do
-            TextLabel.Text = shard.Name .. ": " .. tostring(math.floor(LocalPlayer:DistanceFromCharacter(shard.CenterPoint.Position) + 0.5))
+        while true do
+            Gui.TextLabel.Text = shard.Name .. ": " .. tostring(math.floor(LocalPlayer:DistanceFromCharacter(shard.CenterPoint.Position) + 0.5))
+            wait(ESP_UPDATE_TICK)
         end
     end)()
 end

@@ -1,0 +1,2 @@
+-- Gets the UpdateId (Unix Timestamp of the date the game was last updated) of the game you are currently in, useful for checking if game has updated and a script needs to be updated
+return(tostring(DateTime.fromIsoDate(game:GetService("MarketplaceService"):GetProductInfo(game:GetService("HttpService"):JSONDecode((http or syn).request({Method="GET",Url="https://api.roblox.com/universes/get-universe-containing-place?placeid="..tostring(game.PlaceId)}).Body).UniverseId).Updated).UnixTimestamp))

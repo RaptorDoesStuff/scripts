@@ -1,10 +1,11 @@
 -- Init
-local ver = "1.2"
+local ver = "1.2.1"
 local plr = game:GetService("Players").LocalPlayer
-local Changelog = {"+ Added Arrest Criminals","+ Added Anti Death"}
+local Changelog = {"* Reduced M9 bullets to 15 from 50","* Various optimizations","+ Notification when you mod a gun"}
+local SysMsgT = string.format("PrisonHaxx v%s",ver)
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{
-        Title = "PrisonHaxx v" .. ver,
+        Title = SysMsgT,
         Text = txt
     })
 end
@@ -14,21 +15,23 @@ if not isfolder("PrisonHaxx") or not isfile("PrisonHaxx/UI.lua") then
 	writefile("PrisonHaxx/UI.lua",game:HttpGet("https://raw.githubusercontent.com/Kiwi-i/wallys-ui-fork/master/lib.lua",true))
 end
 local lib = loadfile("PrisonHaxx/UI.lua")()
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Workspace = workspace
 local Remotes = {
     ItemHandler = function(type,item,event)
         game:GetService("Workspace").Remote.ItemHandler:InvokeServer(game:GetService("Workspace").Prison_ITEMS[type][item][event])
     end,
     Arrest = function(part)
-        game:GetService("Workspace").Remote.arrest:InvokeServer(part)
+       		Workspace.Remote.arrest:InvokeServer(part)
 	end,
 	MeleeEvent = function(instance)
-		game:GetService("ReplicatedStorage").meleeEvent:FireServer(instance)
+		ReplicatedStorage.meleeEvent:FireServer(instance)
 	end,
 	LoadChar = function(char)
-		game:GetService("Workspace").Remote.loadchar:InvokeServer(char)
+		Workspace.Remote.loadchar:InvokeServer(char)
 	end,
 	TeamEvent = function(team)
-		game:GetService("Workspace").Remote.TeamEvent:FireServer(team)
+		Workspace.Remote.TeamEvent:FireServer(team)
 	end
 }
 local ModGun = function(gun,tab)
@@ -38,6 +41,7 @@ local ModGun = function(gun,tab)
     for i, v in pairs(tab) do
         gunModule[i] = v
     end
+    SysMsg(string.format("Successfully modified %s",gun))
 end
 local TeleportPlr = function(...)
 	local pos = {...}
@@ -54,10 +58,10 @@ SysMsg("Initialization Complete")
 -- Player Window
 local PlrWin = lib:CreateWindow("Player")
 local Admin = PlrWin:Button("Infinite Yield Admin",function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source",true))()
+	loadstring(syn.request({Url="https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source",Method="GET"}).Body)()
 end)
 local RemoveDoors = PlrWin:Button("Remove Doors",function()
-	game:GetService("Workspace").Doors:Destroy()
+	Workspace.Doors:Destroy()
 end)
 local ModAK = PlrWin:Button("Mod AK-47",function()
     ModGun("AK-47",{
@@ -87,7 +91,7 @@ local ModM9 = PlrWin:Button("Mod M9",function()
         CurrentAmmo = math.huge,
         FireRate = 0,
         ReloadTime = 0,
-        Bullets = 50
+        Bullets = 15
     })
 end)
 local ModTaser = PlrWin:Button("Mod Taser",function()
@@ -206,8 +210,8 @@ local ArrestCrims = OthWin:Button("Arrest Criminals",function()
 end)
 
 -- Changelog Window
-local ChangeWin = lib:CreateWindow("Changelog")
-for i, v in pairs(Changelog) do
+local ChangeWin = lib:CreateWindow(string.format("Changelog for v%s",ver))
+for _, v in ipairs(Changelog) do
 	ChangeWin:Section(v)
 end
 

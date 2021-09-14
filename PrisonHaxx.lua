@@ -1,7 +1,7 @@
 -- Init
-local ver = "1.2.1"
+local ver = "1.2.2"
 local plr = game:GetService("Players").LocalPlayer
-local Changelog = {"* Reduced M9 bullets to 15 from 50","* Various optimizations","+ Notification when you mod a gun"}
+local Changelog = {"* Fixed gun modded notification","* Increased M9 bullets to 20"}
 local SysMsgT = string.format("PrisonHaxx v%s",ver)
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{

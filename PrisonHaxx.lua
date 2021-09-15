@@ -1,7 +1,7 @@
 -- Init
-local ver = "1.2.2"
+local ver = "1.2.3"
 local plr = game:GetService("Players").LocalPlayer
-local Changelog = {"* Fixed gun modded notification","* Increased M9 bullets to 20"}
+local Changelog = {"* Actually changed M9 bullets","* Reduced all gun mods to prevent lag"}
 local SysMsgT = string.format("PrisonHaxx v%s",ver)
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{
@@ -68,20 +68,19 @@ local ModAK = PlrWin:Button("Mod AK-47",function()
 		Name = "High Energy Laser Pointer",
         MaxAmmo = math.huge,
         CurrentAmmo = math.huge,
-        FireRate = 0,
+        FireRate = 0.1,
         ReloadTime = 0,
-        Bullets = 8
+        Bullets = 2
     })
 end)
 local ModRem = PlrWin:Button("Mod Remington",function()
     ModGun("Remington 870",{
-		Name = "Machine Shotgun",
+		Name = "The Nuke",
         MaxAmmo = math.huge,
         CurrentAmmo = math.huge,
         FireRate = 0,
         ReloadTime = 0,
-        Bullets = 20,
-        AutoFire = true
+        Bullets = 13
     })
 end)
 local ModM9 = PlrWin:Button("Mod M9",function()
@@ -91,7 +90,7 @@ local ModM9 = PlrWin:Button("Mod M9",function()
         CurrentAmmo = math.huge,
         FireRate = 0,
         ReloadTime = 0,
-        Bullets = 15
+        Bullets = 5
     })
 end)
 local ModTaser = PlrWin:Button("Mod Taser",function()

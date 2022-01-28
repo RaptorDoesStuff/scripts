@@ -1,7 +1,7 @@
 -- Init
-local ver = "1.2.5"
+local ver = "1.2.6"
 local plr = game:GetService("Players").LocalPlayer
-local Changelog = {"* Fixed bug that I never fixed"}
+local Changelog = {"+ Gun mod is back","* Last update","* Changed changelog window"}
 local SysMsgT = string.format("PrisonHaxx v%s",ver)
 local SysMsg = function(txt)
     game:GetService("StarterGui"):SetCore("SendNotification",{
@@ -35,13 +35,12 @@ local Remotes = {
 	end
 }
 local ModGun = function(gun,tab)
-	return SysMsg(string.format("Unable to mod %s because gunmod has been disabled",gun))
---[[	gun = plr.Backpack:WaitForChild(gun)
+	gun = plr.Backpack:WaitForChild(gun)
 	gun.Name = tab.Name
     local gunModule = require(gun.GunStates)
     for i, v in pairs(tab) do
         gunModule[i] = v
-    end]]
+    end
 end
 local TeleportPlr = function(...)
 	local pos = {...}
